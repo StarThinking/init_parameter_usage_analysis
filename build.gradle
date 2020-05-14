@@ -1,0 +1,37 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+jar {
+    manifest {
+        attributes "Main-Class": "FindDataPath"
+    }
+ 
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	compile group: 'ca.mcgill.sable', name: 'soot', version: '3.3.0'
+	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.26'
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
+}
+
+test {
+	systemProperties 'property': 'value'
+}
+
+uploadArchives {
+	repositories {
+		flatDir {
+			dirs 'repos'
+		}
+	}
+}
